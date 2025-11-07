@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste Carrinho - Diagnóstico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .test-section h2 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background: #8B6F47;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #6B5537;
+        }
+
+        #console {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .console-line {
+            margin: 5px 0;
+            padding: 5px;
+        }
+
+        .console-line.success { color: #4caf50; }
+        .console-line.error { color: #f44336; }
+        .console-line.warning { color: #ff9800; }
+        .console-line.info { color: #2196f3; }
+
+        .product-test {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .product-test h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .cart-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #8B6F47;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Elementos necessários para o carrinho funcionar -->
+    <div style="display: none;">
+        <div id="cartItems"></div>
+        <div id="cartTotal"></div>
+        <div id="cartSidebar"></div>
+        <div id="cartFloatBtn"></div>
+        <button id="closeCart"></button>
+        <button id="checkoutBtn"></button>
+    </div>
+
+    <div class="cart-info">
+        🛒 Carrinho: <span id="cartCount">0</span>
+    </div>
+
+    <div class="container">
+        <h1>🧪 Teste de Diagnóstico do Carrinho</h1>
+
+        <div id="statusSupabase" class="status info">⏳ Verificando Supabase...</div>
+        <div id="statusCart" class="status info">⏳ Verificando Sistema de Carrinho...</div>
+        <div id="statusProducts" class="status info">⏳ Carregando Produtos...</div>
+
+        <div class="test-section">
+            <h2>1️⃣ Teste Manual - Adicionar Produto Fixo</h2>
+            <button onclick="testAddFixedProduct()">
+                Adicionar Produto de Teste (ID: test-001)
+            </button>
+            <button onclick="testAddMultiple()">
+                Adicionar 3 Produtos
+            </button>
+            <button onclick="testClearCart()">
+                Limpar Carrinho
+            </button>
+        </div>
+
+        <div class="test-section">
+            <h2>2️⃣ Produtos do Supabase</h2>
+            <div id="productsContainer">
+                <p>Carregando produtos...</p>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>3️⃣ Console de Debug</h2>
+            <button onclick="clearConsole()">Limpar Console</button>
+            <button onclick="showCartContents()">Mostrar Conteúdo do Carrinho</button>
+            <div id="console"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/produtos.js"></script>
+
+    <script>
+        // Console customizado
+        const consoleDiv = document.getElementById('console');
+
+        function log(message, type = 'info') {
+            const line = document.createElement('div');
+            line.className = `console-line ${type}`;
+            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleDiv.appendChild(line);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function clearConsole() {
+            consoleDiv.innerHTML = '';
+        }
+
+        // Não sobrescrever console para evitar loop infinito
+        // Os logs já aparecem no console normal do navegador
+
+        // Verificação inicial
+        async function runDiagnostics() {
+            log('🚀 Iniciando diagnóstico...', 'info');
+
+            // 1. Verificar Supabase
+            const supabaseStatus = document.getElementById('statusSupabase');
+            if (typeof SupabaseHelper !== 'undefined') {
+                supabaseStatus.className = 'status success';
+                supabaseStatus.textContent = '✅ Supabase Helper carregado';
+                log('✅ SupabaseHelper disponível', 'success');
+            } else {
+                supabaseStatus.className = 'status error';
+                supabaseStatus.textContent = '❌ Supabase Helper não encontrado';
+                log('❌ SupabaseHelper NÃO disponível', 'error');
+                return;
+            }
+
+            // 2. Verificar Sistema de Carrinho
+            const cartStatus = document.getElementById('statusCart');
+
+            // Aguardar um pouco para o cart ser inicializado
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            if (typeof cart !== 'undefined' && cart !== null) {
+                cartStatus.className = 'status success';
+                cartStatus.textContent = '✅ Sistema de Carrinho carregado';
+                log('✅ Sistema de carrinho disponível', 'success');
+                log(`📦 Itens no carrinho: ${cart.items.length}`, 'info');
+                updateCartCount();
+            } else {
+                cartStatus.className = 'status error';
+                cartStatus.textContent = '❌ Sistema de Carrinho não encontrado';
+                log('❌ Sistema de carrinho NÃO disponível', 'error');
+                log('⚠️ Isso é esperado se os elementos do carrinho não existem no DOM', 'warning');
+            }
+
+            // 3. Carregar Produtos do Supabase
+            await loadProductsForTest();
+        }
+
+        async function loadProductsForTest() {
+            const statusProducts = document.getElementById('statusProducts');
+            const productsContainer = document.getElementById('productsContainer');
+
+            try {
+                log('📡 Buscando produtos no Supabase...', 'info');
+                const { data, error } = await SupabaseHelper.getProdutos();
+
+                if (error) {
+                    statusProducts.className = 'status error';
+                    statusProducts.textContent = `❌ Erro ao carregar produtos: ${error}`;
+                    log(`❌ Erro: ${error}`, 'error');
+                    productsContainer.innerHTML = '<p style="color: red;">Erro ao carregar produtos</p>';
+                    return;
+                }
+
+                if (!data || data.length === 0) {
+                    statusProducts.className = 'status error';
+                    statusProducts.textContent = '⚠️ Nenhum produto encontrado no banco';
+                    log('⚠️ Nenhum produto no Supabase', 'warning');
+                    productsContainer.innerHTML = '<p style="color: orange;">Nenhum produto cadastrado</p>';
+                    return;
+                }
+
+                statusProducts.className = 'status success';
+                statusProducts.textContent = `✅ ${data.length} produtos carregados`;
+                log(`✅ ${data.length} produtos carregados`, 'success');
+
+                // Renderizar produtos
+                productsContainer.innerHTML = data.map(produto => `
+                    <div class="product-test">
+                        <h3>${produto.nome}</h3>
+                        <p><strong>ID:</strong> ${produto.id}</p>
+                        <p><strong>Preço:</strong> €${produto.preco.toFixed(2)}</p>
+                        <p><strong>Estoque:</strong> ${produto.estoque}</p>
+                        <button onclick="testAddProduct('${produto.id}', '${produto.nome}', ${produto.preco})">
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+                `).join('');
+
+                log(`📦 Produtos renderizados`, 'success');
+
+            } catch (error) {
+                statusProducts.className = 'status error';
+                statusProducts.textContent = `❌ Exceção ao carregar: ${error.message}`;
+                log(`❌ Exceção: ${error.message}`, 'error');
+            }
+        }
+
+        // Testes
+        function testAddFixedProduct() {
+            log('🧪 Testando adicionar produto fixo...', 'info');
+            if (typeof cart !== 'undefined') {
+                cart.addItem('test-001', 'Produto de Teste', 19.90);
+                log('✅ Produto de teste adicionado', 'success');
+                updateCartCount();
+            } else {
+                log('❌ Carrinho não disponível', 'error');
+            }
+        }
+
+        function testAddProduct(id, name, price) {
+            log(`🧪 Tentando adicionar: ${name} (${id})`, 'info');
+            if (typeof cart !== 'undefined') {
+                cart.addItem(id, name, price);
+                log(`✅ ${name} adicionado ao carrinho`, 'success');
+                updateCartCount();
+            } else {
+                log('❌ Carrinho não disponível', 'error');
+            }
+        }
+
+        function testAddMultiple() {
+            log('🧪 Testando adicionar múltiplos produtos...', 'info');
+            if (typeof cart !== 'undefined') {
+                cart.addItem('test-001', 'Produto 1', 10.00);
+                cart.addItem('test-002', 'Produto 2', 20.00);
+                cart.addItem('test-003', 'Produto 3', 30.00);
+                log('✅ 3 produtos adicionados', 'success');
+                updateCartCount();
+            } else {
+                log('❌ Carrinho não disponível', 'error');
+            }
+        }
+
+        function testClearCart() {
+            log('🧪 Limpando carrinho...', 'info');
+            if (typeof cart !== 'undefined') {
+                cart.items = [];
+                cart.saveCart();
+                cart.updateCartUI();
+                log('✅ Carrinho limpo', 'success');
+                updateCartCount();
+            } else {
+                log('❌ Carrinho não disponível', 'error');
+            }
+        }
+
+        function showCartContents() {
+            log('📋 Conteúdo do carrinho:', 'info');
+            if (typeof cart !== 'undefined') {
+                if (cart.items.length === 0) {
+                    log('   Carrinho vazio', 'warning');
+                } else {
+                    cart.items.forEach((item, index) => {
+                        log(`   ${index + 1}. ${item.name} - €${item.price} x${item.quantity}`, 'info');
+                    });
+                    log(`   Total: €${cart.getTotal().toFixed(2)}`, 'success');
+                }
+            } else {
+                log('❌ Carrinho não disponível', 'error');
+            }
+        }
+
+        function updateCartCount() {
+            const countElement = document.getElementById('cartCount');
+            if (typeof cart !== 'undefined') {
+                const total = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+                countElement.textContent = total;
+            }
+        }
+
+        // Executar diagnóstico ao carregar
+        window.addEventListener('DOMContentLoaded', runDiagnostics);
+    </script>
+</body>
+</html>

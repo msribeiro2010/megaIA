@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Finalizar Compra - Priscilla Santalena">
+    <title>Pagamento - Priscilla Santalena</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .checkout-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+        }
+
+        .checkout-section {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-method {
+            border: 2px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-color);
+            background-color: var(--bg-light);
+        }
+
+        .payment-method.active {
+            border-color: var(--primary-color);
+            background-color: var(--bg-light);
+        }
+
+        .payment-method img {
+            height: 40px;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-summary {
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-item.total {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-top: 2px solid var(--primary-color);
+            border-bottom: none;
+            margin-top: 1rem;
+        }
+
+        .shipping-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .shipping-option {
+            border: 2px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .shipping-option:hover,
+        .shipping-option.active {
+            border-color: var(--primary-color);
+            background-color: var(--bg-light);
+        }
+
+        .shipping-info h4 {
+            margin-bottom: 0.25rem;
+            color: var(--primary-color);
+        }
+
+        .shipping-info p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .promo-code {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .promo-code input {
+            flex: 1;
+        }
+
+        .security-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .security-badge {
+            text-align: center;
+        }
+
+        .security-badge .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>Priscilla Santalena</h1>
+                    <p class="tagline">Terapeuta Holística</p>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#sobre">Sobre Mim</a></li>
+                    <li><a href="index.html#servicos">Serviços</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Checkout -->
+    <div class="checkout-container">
+        <h1 style="text-align: center; color: var(--primary-color); margin-bottom: 3rem;">Finalizar Compra</h1>
+
+        <div class="checkout-grid">
+            <!-- Formulário de Checkout -->
+            <div class="checkout-form">
+                <!-- Dados Pessoais -->
+                <div class="checkout-section">
+                    <h2 class="section-title">1. Dados Pessoais</h2>
+                    <form id="checkoutForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nome">Nome Completo *</label>
+                                <input type="text" id="nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefone">Telefone *</label>
+                                <input type="tel" id="telefone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cpf">CPF/ID</label>
+                                <input type="text" id="cpf">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Endereço de Entrega -->
+                <div class="checkout-section">
+                    <h2 class="section-title">2. Endereço de Entrega</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cep">CEP/Código Postal *</label>
+                            <input type="text" id="cep" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="numero">Número *</label>
+                            <input type="text" id="numero" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="endereco">Endereço *</label>
+                        <input type="text" id="endereco" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cidade">Cidade *</label>
+                            <input type="text" id="cidade" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado/Província *</label>
+                            <input type="text" id="estado" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" id="complemento">
+                    </div>
+                </div>
+
+                <!-- Método de Envio -->
+                <div class="checkout-section">
+                    <h2 class="section-title">3. Método de Envio</h2>
+                    <div class="shipping-options">
+                        <div class="shipping-option active" data-price="5.90">
+                            <div class="shipping-info">
+                                <h4>📦 Envio Padrão</h4>
+                                <p>Entrega em 5-7 dias úteis</p>
+                            </div>
+                            <span class="shipping-price">€5,90</span>
+                        </div>
+                        <div class="shipping-option" data-price="12.50">
+                            <div class="shipping-info">
+                                <h4>⚡ Envio Expresso</h4>
+                                <p>Entrega em 2-3 dias úteis</p>
+                            </div>
+                            <span class="shipping-price">€12,50</span>
+                        </div>
+                        <div class="shipping-option" data-price="0">
+                            <div class="shipping-info">
+                                <h4>🏪 Retirada Local</h4>
+                                <p>Retire em Lichtenvoorde</p>
+                            </div>
+                            <span class="shipping-price">Grátis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Método de Pagamento -->
+                <div class="checkout-section">
+                    <h2 class="section-title">4. Método de Pagamento</h2>
+                    <div class="payment-methods">
+                        <div class="payment-method active" data-method="cartao">
+                            <div class="icon">💳</div>
+                            <p>Cartão de Crédito</p>
+                        </div>
+                        <div class="payment-method" data-method="ideal">
+                            <div class="icon">🏦</div>
+                            <p>iDEAL</p>
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            <div class="icon">💰</div>
+                            <p>PayPal</p>
+                        </div>
+                        <div class="payment-method" data-method="transferencia">
+                            <div class="icon">🔄</div>
+                            <p>Transferência</p>
+                        </div>
+                    </div>
+
+                    <!-- Campos do Cartão (condicional) -->
+                    <div id="cartaoFields" style="margin-top: 2rem;">
+                        <div class="form-group">
+                            <label for="numeroCartao">Número do Cartão *</label>
+                            <input type="text" id="numeroCartao" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="validade">Validade *</label>
+                                <input type="text" id="validade" placeholder="MM/AA">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV *</label>
+                                <input type="text" id="cvv" placeholder="123">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nomeCartao">Nome no Cartão *</label>
+                            <input type="text" id="nomeCartao">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segurança -->
+                <div class="security-badges">
+                    <div class="security-badge">
+                        <div class="icon">🔒</div>
+                        <p>Pagamento Seguro</p>
+                    </div>
+                    <div class="security-badge">
+                        <div class="icon">✓</div>
+                        <p>SSL Certificado</p>
+                    </div>
+                    <div class="security-badge">
+                        <div class="icon">🛡️</div>
+                        <p>Dados Protegidos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo do Pedido -->
+            <div>
+                <div class="checkout-section order-summary">
+                    <h2 class="section-title">Resumo do Pedido</h2>
+
+                    <div id="orderItems">
+                        <!-- Items serão carregados via JS -->
+                    </div>
+
+                    <div class="promo-code">
+                        <input type="text" placeholder="Código promocional" id="promoCode">
+                        <button class="btn btn-secondary" id="applyPromo">Aplicar</button>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">€0,00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Envio:</span>
+                        <span id="shipping">€5,90</span>
+                    </div>
+                    <div class="summary-item" id="discountRow" style="display: none;">
+                        <span>Desconto:</span>
+                        <span id="discount">-€0,00</span>
+                    </div>
+                    <div class="summary-item total">
+                        <span>Total:</span>
+                        <span id="total">€0,00</span>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;" id="finalizarPedido">
+                        Finalizar Pedido
+                    </button>
+
+                    <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                        Ao finalizar, você concorda com nossos <a href="#" style="color: var(--primary-color);">Termos de Uso</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Priscilla Santalena</h3>
+                    <p>Terapeuta Holística especializada em Essencioterapia, Aromaterapia e Reiki</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html#sobre">Sobre Mim</a></li>
+                        <li><a href="index.html#servicos">Serviços</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="index.html#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Certificações</h3>
+                    <p>Registrada no CAT<br>Membro GAT-geschillen</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Priscilla Santalena. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/pagamento.js"></script>
+</body>
+</html>

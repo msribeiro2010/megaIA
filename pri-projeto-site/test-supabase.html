@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Supabase</title>
+</head>
+<body>
+    <h1>Teste de Inicialização do Supabase</h1>
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        function log(message, type = 'info') {
+            const p = document.createElement('p');
+            p.style.color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'blue';
+            p.textContent = message;
+            resultDiv.appendChild(p);
+            console.log(message);
+        }
+
+        setTimeout(() => {
+            log('=== TESTE DE SUPABASE ===', 'info');
+            log('1. window.supabase existe? ' + (typeof window.supabase !== 'undefined' ? 'SIM ✅' : 'NÃO ❌'), typeof window.supabase !== 'undefined' ? 'success' : 'error');
+            log('2. window.initSupabase existe? ' + (typeof window.initSupabase === 'function' ? 'SIM ✅' : 'NÃO ❌'), typeof window.initSupabase === 'function' ? 'success' : 'error');
+            log('3. window.supabaseClient existe? ' + (window.supabaseClient ? 'SIM ✅' : 'NÃO ❌'), window.supabaseClient ? 'success' : 'error');
+            
+            if (window.supabaseClient) {
+                log('4. Tipo de supabaseClient: ' + typeof window.supabaseClient, 'success');
+                log('5. Tem método from? ' + (typeof window.supabaseClient.from === 'function' ? 'SIM ✅' : 'NÃO ❌'), typeof window.supabaseClient.from === 'function' ? 'success' : 'error');
+            } else {
+                log('4. Tentando inicializar manualmente...', 'info');
+                try {
+                    const client = window.initSupabase();
+                    log('5. Cliente inicializado: ' + (client ? 'SIM ✅' : 'NÃO ❌'), client ? 'success' : 'error');
+                    window.supabaseClient = client;
+                } catch (error) {
+                    log('5. ERRO: ' + error.message, 'error');
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

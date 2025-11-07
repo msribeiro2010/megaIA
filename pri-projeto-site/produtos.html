@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Produtos de Aromaterapia e Essências - Priscilla Santalena">
+    <title>Produtos - Priscilla Santalena</title>
+    <!-- Tema Santalena (verde gradiente + fontes elegantes) -->
+    <link rel="stylesheet" href="css/theme-santalena.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>Priscilla Santalena</h1>
+                    <p class="tagline">Terapeuta Holística</p>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#sobre">Sobre Mim</a></li>
+                    <li><a href="index.html#servicos">Serviços</a></li>
+                    <li><a href="produtos.html" class="active">Produtos</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+                <button class="mobile-menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Nossos Produtos</h1>
+            <p>Produtos naturais cuidadosamente selecionados para seu bem-estar</p>
+        </div>
+    </section>
+
+    <!-- Filtros de Produtos -->
+    <section class="products-filters">
+        <div class="container">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="todos">Todos</button>
+                <button class="filter-btn" data-filter="oleos">Óleos Essenciais</button>
+                <button class="filter-btn" data-filter="essencias">Essências Florais</button>
+                <button class="filter-btn" data-filter="difusores">Difusores</button>
+                <button class="filter-btn" data-filter="kits">Kits</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produtos Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="products-grid">
+                <!-- Óleos Essenciais -->
+                <div class="product-card" data-category="oleos">
+                    <div class="product-image">
+                        <img src="images/produtos/oleo-lavanda.jpg" alt="Óleo Essencial de Lavanda">
+                        <div class="product-badge">Bestseller</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Óleo Essencial de Lavanda</h3>
+                        <p class="product-description">Pureza 100%. Ideal para relaxamento e qualidade do sono.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€18,50</span>
+                            <button class="btn-add-cart" data-product="oleo-lavanda">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="oleos">
+                    <div class="product-image">
+                        <img src="images/produtos/oleo-hortelapimenta.jpg" alt="Óleo Essencial de Hortelã-Pimenta">
+                    </div>
+                    <div class="product-info">
+                        <h3>Óleo Essencial de Hortelã-Pimenta</h3>
+                        <p class="product-description">Energizante e refrescante. Ajuda na concentração.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€15,90</span>
+                            <button class="btn-add-cart" data-product="oleo-hortela">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="oleos">
+                    <div class="product-image">
+                        <img src="images/produtos/oleo-eucalipto.jpg" alt="Óleo Essencial de Eucalipto">
+                    </div>
+                    <div class="product-info">
+                        <h3>Óleo Essencial de Eucalipto</h3>
+                        <p class="product-description">Purificador e revigorante. Auxilia na respiração.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€16,50</span>
+                            <button class="btn-add-cart" data-product="oleo-eucalipto">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Essências Florais -->
+                <div class="product-card" data-category="essencias">
+                    <div class="product-image">
+                        <img src="images/produtos/essencia-rescue.jpg" alt="Essência Floral Rescue">
+                        <div class="product-badge">Popular</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Essência Floral Rescue</h3>
+                        <p class="product-description">Fórmula de emergência para momentos de estresse.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€12,90</span>
+                            <button class="btn-add-cart" data-product="essencia-rescue">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="essencias">
+                    <div class="product-image">
+                        <img src="images/produtos/essencia-menopausa.jpg" alt="Mix Essencial Menopausa">
+                    </div>
+                    <div class="product-info">
+                        <h3>Mix Essencial Menopausa</h3>
+                        <p class="product-description">Combinação especial para sintomas da menopausa.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€24,90</span>
+                            <button class="btn-add-cart" data-product="essencia-menopausa">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Difusores -->
+                <div class="product-card" data-category="difusores">
+                    <div class="product-image">
+                        <img src="images/produtos/difusor-ceramica.jpg" alt="Difusor Cerâmico">
+                    </div>
+                    <div class="product-info">
+                        <h3>Difusor Cerâmico</h3>
+                        <p class="product-description">Design elegante com iluminação LED.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€35,00</span>
+                            <button class="btn-add-cart" data-product="difusor-ceramica">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="difusores">
+                    <div class="product-image">
+                        <img src="images/produtos/difusor-ultrassonico.jpg" alt="Difusor Ultrassônico">
+                        <div class="product-badge">Novo</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Difusor Ultrassônico</h3>
+                        <p class="product-description">Tecnologia silenciosa com 7 cores de LED.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€45,00</span>
+                            <button class="btn-add-cart" data-product="difusor-ultrassonico">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kits -->
+                <div class="product-card" data-category="kits">
+                    <div class="product-image">
+                        <img src="images/produtos/kit-relaxamento.jpg" alt="Kit Relaxamento">
+                        <div class="product-badge">Oferta</div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Kit Relaxamento Completo</h3>
+                        <p class="product-description">3 óleos essenciais + difusor + guia de uso.</p>
+                        <div class="product-footer">
+                            <span class="product-price-old">€85,00</span>
+                            <span class="product-price">€69,90</span>
+                            <button class="btn-add-cart" data-product="kit-relaxamento">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-category="kits">
+                    <div class="product-image">
+                        <img src="images/produtos/kit-menopausa.jpg" alt="Kit Menopausa">
+                    </div>
+                    <div class="product-info">
+                        <h3>Kit Especial Menopausa</h3>
+                        <p class="product-description">Seleção exclusiva para equilíbrio hormonal.</p>
+                        <div class="product-footer">
+                            <span class="product-price">€79,90</span>
+                            <button class="btn-add-cart" data-product="kit-menopausa">Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Carrinho Lateral -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Seu Carrinho</h3>
+            <button class="cart-close" id="closeCart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items serão adicionados via JavaScript -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">€0,00</span>
+            </div>
+            <button class="btn btn-primary btn-checkout" id="checkoutBtn">Finalizar Compra</button>
+        </div>
+    </div>
+
+    <!-- Botão Flutuante do Carrinho -->
+    <button class="cart-float-btn" id="cartFloatBtn">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Priscilla Santalena</h3>
+                    <p>Terapeuta Holística especializada em Essencioterapia, Aromaterapia e Reiki</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html#sobre">Sobre Mim</a></li>
+                        <li><a href="index.html#servicos">Serviços</a></li>
+                        <li><a href="produtos.html">Produtos</a></li>
+                        <li><a href="index.html#contato">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Certificações</h3>
+                    <p>Registrada no CAT<br>Membro GAT-geschillen</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Priscilla Santalena. Todos os direitos reservados. | <a href="admin-login.html" style="color: var(--cor-destaque); text-decoration: none;">Admin</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/load-site-config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/produtos.js"></script>
+    <script src="js/produtos-supabase.js"></script>
+</body>
+</html>

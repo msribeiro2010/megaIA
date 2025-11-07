@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Corrigir Dados do Hero</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 800px; margin: 0 auto; }
+        button { padding: 15px 30px; margin: 10px; font-size: 16px; cursor: pointer; }
+        .btn-primary { background: #2d7a4d; color: white; border: none; border-radius: 5px; }
+        .btn-primary:hover { background: #4a9d6f; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🛠️ Corrigir Dados da Seção Hero</h1>
+    
+    <p>Esta página vai atualizar os textos do Hero para os valores corretos do seu site, mantendo a imagem que você fez upload.</p>
+    
+    <button class="btn-primary" onclick="fixHeroData()">✅ Corrigir Dados do Hero</button>
+    
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/site-config.js"></script>
+    
+    <script>
+        async function fixHeroData() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>⏳ Processando...</p>';
+            
+            try {
+                // Buscar configuração atual
+                const currentConfig = await SiteConfigManager.getConfig('hero_section');
+                console.log('📦 Configuração atual:', currentConfig);
+                
+                // Manter as imagens que já existem
+                const backgroundImages = currentConfig?.config_value?.background_images || [];
+                const mainImageIndex = currentConfig?.config_value?.main_image_index || 0;
+                
+                // Dados corretos do site
+                const correctData = {
+                    title: "Bem-vinda ao Equilíbrio e Energia",
+                    subtitle: "Ajudo mulheres na (peri)menopausa a se sentirem energizadas, equilibradas e confiantes com uma abordagem holística e pessoal.",
+                    button_primary_text: "Agende sua Consulta",
+                    button_primary_link: "#contato",
+                    button_secondary_text: "Conheça os Serviços",
+                    button_secondary_link: "#servicos",
+                    overlay_opacity: 0.2,
+                    use_hero_image: true,
+                    background_images: backgroundImages,
+                    main_image_index: mainImageIndex
+                };
+                
+                console.log('💾 Salvando dados corretos:', correctData);
+                
+                // Salvar
+                const result = await SiteConfigManager.saveConfig('hero_section', correctData);
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h2>✅ Sucesso!</h2>
+                            <p>Os dados do Hero foram corrigidos com sucesso!</p>
+                            <p><strong>Próximo passo:</strong> Abra a página principal do site para ver o resultado.</p>
+                            <a href="index.html" target="_blank" style="display: inline-block; margin-top: 20px; padding: 15px 30px; background: #2d7a4d; color: white; text-decoration: none; border-radius: 5px;">
+                                🌐 Abrir Site Principal
+                            </a>
+                        </div>
+                        <pre>${JSON.stringify(correctData, null, 2)}</pre>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            <h2>❌ Erro</h2>
+                            <p>${result.error}</p>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h2>❌ Erro</h2>
+                        <p>${error.message}</p>
+                        <pre>${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
