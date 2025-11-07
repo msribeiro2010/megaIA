@@ -818,7 +818,30 @@ section {
 }
 
 /* Responsividade */
+
+/* Tablets e dispositivos médios */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 30px;
+    }
+
+    .about-content {
+        gap: 3rem;
+    }
+
+    .contact-content {
+        gap: 3rem;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+    }
+}
+
+/* Tablets */
 @media (max-width: 768px) {
+    /* Header */
     .nav-menu {
         display: none;
     }
@@ -827,28 +850,59 @@ section {
         display: flex;
     }
 
+    /* Títulos */
+    .section-header h2 {
+        font-size: 2.5rem;
+    }
+
+    /* Hero */
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.2rem;
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .hero-buttons {
         flex-direction: column;
+        gap: 1rem;
     }
 
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Sobre e Contato */
     .about-content,
     .contact-content {
         grid-template-columns: 1fr;
+        gap: 2.5rem;
     }
 
+    .about-image::before {
+        top: -10px;
+        left: -10px;
+    }
+
+    .about-text h3 {
+        font-size: 2rem;
+    }
+
+    /* Serviços e Depoimentos */
     .services-grid,
     .testimonials-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
 
+    .service-card,
+    .testimonial-card {
+        padding: 2rem 1.5rem;
+    }
+
+    /* Produtos */
     .cart-sidebar {
         width: 100%;
         right: -100%;
@@ -857,19 +911,135 @@ section {
     .products-grid {
         grid-template-columns: 1fr;
     }
+
+    /* Página de produtos */
+    .page-header {
+        padding: 100px 0 50px;
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
 }
 
+/* Mobile */
 @media (max-width: 480px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    /* Títulos */
     .section-header h2 {
         font-size: 2rem;
     }
 
-    .hero {
-        height: 500px;
+    .section-subtitle {
+        font-size: 1rem;
     }
 
+    /* Hero */
+    .hero {
+        height: auto;
+        min-height: 500px;
+        padding: 120px 0 60px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    /* Sobre Mim */
+    .about-text h3 {
+        font-size: 1.8rem;
+    }
+
+    .about-text p {
+        font-size: 1rem;
+    }
+
+    .services-list li {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    /* Cards */
+    .service-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .service-icon {
+        font-size: 3rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.4rem;
+    }
+
+    .testimonial-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .testimonial-card::before {
+        font-size: 4rem;
+        left: 10px;
+    }
+
+    /* Contato */
+    .contact-item {
+        padding: 1.2rem;
+    }
+
+    .contact-form {
+        padding: 2rem 1.5rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+
+    /* Botões */
+    .btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    /* Produtos */
     .product-card {
         margin-bottom: 1rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .page-header p {
+        font-size: 1rem;
+    }
+}
+
+/* Mobile pequeno */
+@media (max-width: 360px) {
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .about-text h3 {
+        font-size: 1.6rem;
+    }
+
+    .service-card h3,
+    .page-header h1 {
+        font-size: 1.3rem;
     }
 }
 
