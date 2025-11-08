@@ -1,0 +1,168 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║                                                                       ║
+║   SITE PRISCILLA SANTALENA - DEPLOY NA HOSTINGER                     ║
+║   Versão: 1.0                                                         ║
+║   Data: Novembro 2025                                                 ║
+║                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+📦 CONTEÚDO DESTE ARQUIVO ZIP
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ ARQUIVOS HTML (Páginas do Site):
+   • index.html - Página inicial
+   • produtos.html - Catálogo de produtos
+   • admin-login.html - Login do painel administrativo
+   • admin-dashboard.html - Dashboard de administração
+   • test-supabase.html - Teste de conexão com Supabase
+
+✅ PASTA CSS (Estilos):
+   • style.css - Estilos principais
+   • theme-santalena.css - Tema verde Santalena
+   • admin.css - Estilos do painel admin
+
+✅ PASTA JS (JavaScript):
+   • main.js - Funcionalidades principais
+   • supabase-config.js - Configuração do Supabase (EDITAR!)
+   • load-site-config.js - Carregamento de configurações
+   • site-config.js - Gerenciamento de configurações
+   • produtos.js - Sistema de carrinho
+   • produtos-supabase.js - Produtos do banco
+   • admin.js - Painel administrativo
+   • clock-date.js - Widget de relógio (opcional)
+
+✅ PASTA IMAGES (Imagens):
+   • Pasta vazia - adicione suas imagens aqui
+   • Subpasta produtos/ - imagens dos produtos
+
+✅ ARQUIVOS SQL (Scripts do Banco):
+   • supabase-schema.sql - Estrutura do banco
+   • supabase-site-config.sql - Configurações do site
+   • supabase-storage-policies.sql - Políticas de storage
+   • fix-rls-policies.sql - Correção de permissões
+
+✅ DOCUMENTAÇÃO:
+   • DEPLOY-RAPIDO.md - Guia rápido (5 minutos)
+   • DEPLOY-HOSTINGER.md - Guia completo
+   • README.md - Informações do projeto
+
+
+🚀 COMO FAZER O DEPLOY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PASSO 1: EXTRAIR ARQUIVOS
+   • Extraia este ZIP em uma pasta local
+   • Você verá todos os arquivos listados acima
+
+PASSO 2: UPLOAD PARA HOSTINGER
+   Opção A - Gerenciador de Arquivos (RECOMENDADO):
+      1. Login: https://hpanel.hostinger.com
+      2. Arquivos → Gerenciador de Arquivos
+      3. Navegue até /public_html
+      4. Delete arquivos antigos (se houver)
+      5. Upload de TODOS os arquivos/pastas extraídos
+
+   Opção B - FTP (FileZilla):
+      1. Configure FTP com credenciais do hPanel
+      2. Conecte ao servidor
+      3. Arraste arquivos para /public_html
+
+PASSO 3: CONFIGURAR SUPABASE
+   1. Crie conta em: https://supabase.com
+   2. Crie novo projeto
+   3. No SQL Editor, execute OS 4 SCRIPTS (na ordem):
+      → supabase-schema.sql
+      → supabase-site-config.sql
+      → supabase-storage-policies.sql
+      → fix-rls-policies.sql
+
+   4. Em Storage, crie 4 buckets PÚBLICOS:
+      → hero-images
+      → logos
+      → about
+      → produtos
+
+PASSO 4: ATUALIZAR CREDENCIAIS
+   No Gerenciador de Arquivos da Hostinger:
+   1. Edite: js/supabase-config.js
+   2. Atualize as linhas:
+      const SUPABASE_URL = 'https://SEU-PROJETO.supabase.co';
+      const SUPABASE_ANON_KEY = 'SUA-CHAVE-AQUI';
+   3. Salve o arquivo
+
+PASSO 5: ATIVAR SSL
+   1. hPanel → Segurança → SSL
+   2. Ative SSL gratuito (Let's Encrypt)
+
+PASSO 6: TESTAR!
+   Acesse: https://seudominio.com
+   Teste:
+   • Página inicial funciona?
+   • Produtos aparecem?
+   • Admin funciona?
+
+
+⚙️ CREDENCIAIS DO SUPABASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Após criar projeto no Supabase, você receberá:
+
+1. PROJECT URL: https://xxxxx.supabase.co
+2. ANON/PUBLIC KEY: eyJhbGc...longo-texto...
+
+Copie e cole no arquivo: js/supabase-config.js
+
+
+🆘 PROBLEMAS COMUNS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ Site não carrega
+   → Verifique se arquivos estão em /public_html
+   → Não deve estar em /public_html/site/
+
+❌ Imagens não aparecem
+   → Upload da pasta images/ completa
+   → Verifique permissões (644 para arquivos)
+
+❌ Supabase não conecta
+   → Confirme credenciais em js/supabase-config.js
+   → Todos os 4 scripts SQL foram executados?
+   → Buckets criados como PÚBLICOS?
+
+❌ Admin não funciona
+   → Execute: fix-rls-policies.sql no Supabase
+   → Teste com: test-supabase.html
+
+
+📞 SUPORTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Hostinger: https://www.hostinger.com.br/suporte
+• Supabase: https://supabase.com/docs
+• GitHub: https://github.com/msribeiro2010/pri-santalena
+
+
+✅ CHECKLIST FINAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+□ Arquivos extraídos do ZIP
+□ Upload para /public_html (Hostinger)
+□ Projeto criado no Supabase
+□ 4 scripts SQL executados
+□ 4 buckets de storage criados (públicos)
+□ Credenciais atualizadas em js/supabase-config.js
+□ SSL ativado no hPanel
+□ Site testado e funcionando
+□ Painel admin testado
+
+
+═══════════════════════════════════════════════════════════════════════
+
+🎉 Pronto! Seu site estará ONLINE!
+
+Tempo estimado: 20-30 minutos
+
+═══════════════════════════════════════════════════════════════════════
+
+🤖 Desenvolvido com Claude Code
+© 2025 Priscilla Santalena - Terapeuta Holística
