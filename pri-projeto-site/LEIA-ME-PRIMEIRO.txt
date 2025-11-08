@@ -9,6 +9,20 @@
 📦 CONTEÚDO DESTE ARQUIVO ZIP
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+⚠️ IMPORTANTE - O QUE VAI PARA ONDE:
+
+   ✅ VAI PARA HOSTINGER (está neste ZIP):
+      • Todos os arquivos HTML
+      • Pasta css/ completa
+      • Pasta js/ completa
+      • Pasta images/ (vazia, para você adicionar fotos)
+
+   ❌ NÃO VAI PARA HOSTINGER (use no Supabase):
+      • Arquivos .sql (execute no painel do Supabase)
+      • Arquivos .md (documentação, apenas para ler)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
 ✅ ARQUIVOS HTML (Páginas do Site):
    • index.html - Página inicial
    • produtos.html - Catálogo de produtos
@@ -35,11 +49,17 @@
    • Pasta vazia - adicione suas imagens aqui
    • Subpasta produtos/ - imagens dos produtos
 
-✅ ARQUIVOS SQL (Scripts do Banco):
+📁 ARQUIVOS SQL (NÃO INCLUÍDOS NO ZIP):
+   ⚠️ Os arquivos SQL NÃO vão para a Hostinger!
+   ⚠️ Eles são usados APENAS no Supabase (banco de dados online)
+
+   Baixe separadamente do GitHub:
    • supabase-schema.sql - Estrutura do banco
    • supabase-site-config.sql - Configurações do site
    • supabase-storage-policies.sql - Políticas de storage
    • fix-rls-policies.sql - Correção de permissões
+
+   Link: https://github.com/msribeiro2010/pri-santalena
 
 ✅ DOCUMENTAÇÃO:
    • DEPLOY-RAPIDO.md - Guia rápido (5 minutos)
