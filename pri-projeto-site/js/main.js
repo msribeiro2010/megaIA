@@ -1,11 +1,33 @@
 // Menu Mobile Toggle
 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
 const navMenu = document.querySelector('.nav-menu');
+const body = document.body;
 
-if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', () => {
+if (mobileMenuToggle && navMenu) {
+    // Toggle menu ao clicar no botão
+    mobileMenuToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
         navMenu.classList.toggle('active');
         mobileMenuToggle.classList.toggle('active');
+        body.classList.toggle('menu-open');
+    });
+
+    // Fechar menu ao clicar em um link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            body.classList.remove('menu-open');
+        });
+    });
+
+    // Fechar menu ao clicar fora
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            body.classList.remove('menu-open');
+        }
     });
 }
 
@@ -70,20 +92,42 @@ document.querySelectorAll('.service-card, .testimonial-card, .product-card').for
     observer.observe(card);
 });
 
-// Sticky header effect - Adiciona classe 'scrolled' ao rolar
+// Header Auto-Hide (esconde ao descer, mostra ao subir)
 let lastScroll = 0;
 const header = document.querySelector('.header');
+let ticking = false;
 
 window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            const currentScroll = window.pageYOffset;
 
-    if (currentScroll > 50) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
+            // Adicionar fundo quando rolar
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Auto-hide: esconde ao descer, mostra ao subir
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                // Descendo - esconde header
+                header.classList.add('header-hidden');
+            } else if (currentScroll < lastScroll) {
+                // Subindo - mostra header
+                header.classList.remove('header-hidden');
+            }
+
+            // No topo, sempre mostra
+            if (currentScroll <= 0) {
+                header.classList.remove('header-hidden');
+            }
+
+            lastScroll = currentScroll;
+            ticking = false;
+        });
+        ticking = true;
     }
-
-    lastScroll = currentScroll;
 });
 
 // Adicionar classe active ao menu baseado na seção visível
