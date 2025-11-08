@@ -925,45 +925,60 @@ section {
 /* Mobile */
 @media (max-width: 480px) {
     .container {
-        padding: 0 20px;
+        padding: 0 1.2rem;
     }
 
     /* Títulos */
+    .section-header {
+        margin-bottom: 2.5rem;
+    }
+
     .section-header h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        line-height: 1.3;
     }
 
     .section-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     /* Hero */
     .hero {
         height: auto;
-        min-height: 500px;
-        padding: 120px 0 60px;
+        min-height: 100vh;
+        padding: 100px 1.5rem 50px;
     }
 
     .hero-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        line-height: 1.3;
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
     }
 
     /* Sobre Mim */
     .about-text h3 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        line-height: 1.3;
     }
 
     .about-text p {
-        font-size: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.7;
+    }
+
+    .about-text .highlight {
+        font-size: 0.85rem;
+        padding: 0.3rem 1rem;
     }
 
     .services-list li {
-        padding: 0.8rem 1rem;
-        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
     }
 
     /* Cards */
@@ -972,11 +987,15 @@ section {
     }
 
     .service-icon {
-        font-size: 3rem;
+        font-size: 2.5rem;
     }
 
     .service-card h3 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+    }
+
+    .service-card p {
+        font-size: 0.95rem;
     }
 
     .testimonial-card {
@@ -984,17 +1003,25 @@ section {
     }
 
     .testimonial-card::before {
-        font-size: 4rem;
+        font-size: 3.5rem;
         left: 10px;
+    }
+
+    .testimonial-text {
+        font-size: 0.95rem;
     }
 
     /* Contato */
     .contact-item {
-        padding: 1.2rem;
+        padding: 1rem;
+    }
+
+    .contact-item h3 {
+        font-size: 1.1rem;
     }
 
     .contact-form {
-        padding: 2rem 1.5rem;
+        padding: 1.5rem 1.2rem;
     }
 
     .form-group input,
@@ -1005,8 +1032,9 @@ section {
 
     /* Botões */
     .btn {
-        padding: 12px 30px;
-        font-size: 1rem;
+        padding: 12px 24px;
+        font-size: 0.9rem;
+        width: 100%;
     }
 
     /* Produtos */
@@ -1014,12 +1042,58 @@ section {
         margin-bottom: 1rem;
     }
 
+    .page-header {
+        padding: 100px 1.5rem 40px;
+    }
+
     .page-header h1 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 
     .page-header p {
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* iPhone 16 Pro e similares (430px) */
+@media (max-width: 430px) {
+    .section-header h2 {
+        font-size: 1.7rem;
+    }
+
+    .about-text h3 {
+        font-size: 1.5rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* iPhone SE e telas menores (375px) */
+@media (max-width: 375px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .about-text h3 {
+        font-size: 1.4rem;
+    }
+
+    .service-card {
+        padding: 1.5rem 1.2rem;
+    }
+
+    .service-icon {
+        font-size: 2.2rem;
+    }
+
+    .service-card h3 {
+        font-size: 1.2rem;
     }
 }
 
