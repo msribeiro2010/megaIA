@@ -664,8 +664,8 @@
         <h1>🎰 Administrar Jogos da Mega-Sena</h1>
         
         <div class="tabs">
-            <button class="tab-btn active" onclick="mostrarAba('criar')">➕ Criar Jogos</button>
-            <button class="tab-btn" onclick="mostrarAba('gerenciar')">📋 Gerenciar Jogos</button>
+            <button class="tab-btn active" onclick="mostrarAba(event, 'criar')">➕ Criar Jogos</button>
+            <button class="tab-btn" onclick="mostrarAba(event, 'gerenciar')">📋 Gerenciar Jogos</button>
         </div>
 
         <div id="tab-criar" class="tab-content active">
@@ -1260,7 +1260,7 @@
 
     <script>
         // Função para alternar abas
-        function mostrarAba(aba) {
+        function mostrarAba(ev, aba) {
             // Esconder todas as abas
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -1273,7 +1273,8 @@
             
             // Mostrar aba selecionada
             document.getElementById('tab-' + aba).classList.add('active');
-            event.target.classList.add('active');
+            const target = (ev && ev.target) ? ev.target : null;
+            if (target) target.classList.add('active');
         }
 
         // Scripts combinados
