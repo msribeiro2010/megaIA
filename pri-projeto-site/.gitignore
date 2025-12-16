@@ -46,3 +46,4 @@ config/credentials.json
 *.pem
 *.key
 secrets.js
+.vercel
