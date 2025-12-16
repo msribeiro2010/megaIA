@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 Administrar Jogos Mega-Sena</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #209869 0%, #1a7a52 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(32, 152, 105, 0.3);
+        }
+
+        h1 {
+            color: #209869;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        /* Sistema de Abas */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: #209869;
+        }
+
+        .tab-btn.active {
+            color: #209869;
+            border-bottom-color: #209869;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Estilos combinados */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #209869 0%, #1a7751 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #209869;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .info-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+
+        .info-box h3 {
+            color: #2e7d32;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .info-box p {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        input[type="number"], input[type="date"], input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus, input[type="date"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .numeros-container {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .numeros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .numero-btn {
+            padding: 12px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .numero-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .numero-btn.selected {
+            background: #209869;
+            color: white;
+            border-color: #209869;
+            transform: scale(1.1);
+        }
+
+        .selecionados {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border: 2px solid #209869;
+        }
+
+        .selecionados-header {
+            font-weight: 600;
+            color: #209869;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .selecionados-numeros {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 40px;
+            align-items: center;
+        }
+
+        .numero-selecionado {
+            background: #209869;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .cartao-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .cartao-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-limpar {
+            background: #ff5252;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-limpar:hover {
+            background: #ff1744;
+        }
+
+        .btn-aleatorio {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-aleatorio:hover {
+            background: #1976d2;
+        }
+
+        .geracao-rapida {
+            background: #f8f9fa;
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px dashed #209869;
+        }
+
+        .geracao-rapida h3 {
+            color: #209869;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+
+        .geracao-rapida .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .geracao-rapida .row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .btn-gerar {
+            background: #209869;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.3s;
+        }
+
+        .btn-gerar:hover {
+            background: #1a7751;
+        }
+
+        .btn-gerar.secundario {
+            background: #6c757d;
+        }
+
+        .btn-gerar.secundario:hover {
+            background: #5a6268;
+        }
+
+        .checkbox-linha {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .checkbox-linha input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .btn-adicionar-cartao {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .btn-adicionar-cartao:hover {
+            background: #45a049;
+        }
+
+        .btn-adicionar-cartao:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .cartoes-adicionados {
+            margin-top: 30px;
+        }
+
+        .cartao-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #209869;
+        }
+
+        .cartao-numeros {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .btn-remover {
+            background: #ff5252;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.3s;
+        }
+
+        .btn-remover:hover {
+            background: #ff1744;
+        }
+
+        .btn-salvar {
+            background: #209869;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background: #1a7751;
+        }
+
+        .btn-salvar:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .mensagem {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .mensagem.sucesso {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mensagem.erro {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .checkbox-aposta {
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff3cd;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .checkbox-aposta input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-aposta label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.95em;
+            color: #856404;
+        }
+    
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #209869 0%, #1a7a52 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(32, 152, 105, 0.3);
+        }
+
+        h1 {
+            color: #209869;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .jogo-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #209869;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .jogo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .concurso-info {
+            font-weight: bold;
+            color: #209869;
+            font-size: 18px;
+        }
+
+        .data-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cartao {
+            background-color: #209869;
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cartao:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(32, 152, 105, 0.3);
+        }
+
+        .numeros {
+            font-family: monospace;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .cartao-label {
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
+            opacity: 0.9;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .checkbox-container label {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status.apostado {
+            background: #28a745;
+            color: white;
+        }
+
+        .status.nao-apostado {
+            background: #ffc107;
+            color: #856404;
+        }
+
+        .status.conferido {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn {
+            background: #209869;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #1a7a52;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(32, 152, 105, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-left: 4px solid #209869;
+        }
+
+        .alert.error {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+            border-left: 4px solid #ffc107;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state h2 {
+            color: #999;
+            margin-bottom: 10px;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎰 Administrar Jogos da Mega-Sena</h1>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="mostrarAba('criar')">➕ Criar Jogos</button>
+            <button class="tab-btn" onclick="mostrarAba('gerenciar')">📋 Gerenciar Jogos</button>
+        </div>
+
+        <div id="tab-criar" class="tab-content active">
+            <h1>🎰 Criar Jogos Personalizados</h1>
+        <p class="subtitle">Escolha seus próprios números da sorte para a Mega-Sena</p>
+
+        <div class="info-box">
+            <h3>📋 Como funciona?</h3>
+            <p>
+                <strong>1.</strong> Escolha a data do sorteio e o número do concurso<br>
+                <strong>2.</strong> Selecione 6 números para cada cartão (de 1 a 60)<br>
+                <strong>3.</strong> Adicione quantos cartões quiser<br>
+                <strong>4.</strong> Marque se já apostou na lotérica<br>
+                <strong>5.</strong> Salve para incluir no sistema de conferência automática
+            </p>
+        
+
+        <div class="form-group">
+            <label for="dataSorteio">📅 Data do Sorteio:</label>
+            <input type="date" id="dataSorteio" required>
+        </div>
+
+        <div class="form-group">
+            <label for="numeroConcurso">🎲 Número do Concurso:</label>
+            <input type="number" id="numeroConcurso" placeholder="Ex: 2951" min="1" required>
+        </div>
+
+        <div class="numeros-container">
+            <div class="cartao-header">
+                <span class="cartao-title">Selecione 6 números (1-60)</span>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-aleatorio" onclick="gerarSelecaoAleatoria()">🎲 Aleatório</button>
+                    <button class="btn-limpar" onclick="limparSelecao()">Limpar</button>
+                </div>
+            </div>
+
+            <div class="numeros-grid" id="numerosGrid"></div>
+
+            <div class="selecionados">
+                <div class="selecionados-header">Números selecionados: <span id="contador">0/6</span></div>
+                <div class="selecionados-numeros" id="numerosSelecionados"></div>
+            </div>
+
+            <button class="btn-adicionar-cartao" id="btnAdicionarCartao" onclick="adicionarCartao()" disabled>
+                ➕ Adicionar Cartão
+            </button>
+
+            <div class="geracao-rapida">
+                <h3>⚡ Geração rápida</h3>
+
+                <div class="row">
+                    <div>
+                        <label for="qtdCartoesAleatorios">Quantidade de cartões aleatórios:</label>
+                        <input type="number" id="qtdCartoesAleatorios" min="1" max="50" value="3">
+                    </div>
+                    <div>
+                        <label for="substituirCartoesAleatorios">Ação:</label>
+                        <div class="checkbox-linha">
+                            <input type="checkbox" id="substituirCartoesAleatorios" checked>
+                            <label for="substituirCartoesAleatorios">Substituir cartões atuais</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button class="btn-gerar" onclick="gerarCartoesAleatorios()">🎰 Gerar cartões aleatórios</button>
+                    <button class="btn-gerar secundario" onclick="limparCartoes()">🧹 Limpar cartões</button>
+                </div>
+
+                <div class="row-3">
+                    <div style="grid-column: 1 / span 3;">
+                        <label for="numerosBase">Gerar a partir de 6 números (ex: 01 02 03 04 05 06):</label>
+                        <input type="text" id="numerosBase" placeholder="Digite 6 números separados por espaço, vírgula ou hífen">
+                    </div>
+                    <div>
+                        <label for="qtdCartoesBase">Quantidade de cartões:</label>
+                        <input type="number" id="qtdCartoesBase" min="1" max="50" value="3">
+                    </div>
+                    <div>
+                        <label for="qtdManterBase">Quantos números manter:</label>
+                        <input type="number" id="qtdManterBase" min="0" max="6" value="3">
+                    </div>
+                    <div>
+                        <button class="btn-gerar" onclick="gerarCartoesApartirBase()">✨ Gerar a partir da base</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cartoes-adicionados" id="cartoesAdicionados" style="display: none;">
+            <h3 style="color: #209869; margin-bottom: 15px;">📋 Cartões Adicionados</h3>
+            <div id="listaCartoes"></div>
+        </div>
+
+        <div class="checkbox-aposta">
+            <input type="checkbox" id="apostaRealizada" checked>
+            <label for="apostaRealizada">✅ Já apostei esses números na lotérica</label>
+        </div>
+
+        <button class="btn-salvar" id="btnSalvar" onclick="salvarJogo()" disabled>
+            💾 Salvar Jogo no Sistema
+        </button>
+
+        <div id="mensagem"></div>
+    </div>
+
+    <script>
+        let numerosSelecionados = [];
+        let cartoes = [];
+        let botoesNumero = new Map();
+
+        // Criar grid de números
+        function criarGrid() {
+            const grid = document.getElementById('numerosGrid');
+            for (let i = 1; i <= 60; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'numero-btn';
+                btn.textContent = i.toString().padStart(2, '0');
+                btn.dataset.numero = String(i);
+                btn.onclick = () => toggleNumero(i, btn);
+                grid.appendChild(btn);
+                botoesNumero.set(i, btn);
+            }
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function gerarCartaoAleatorio(fixos = []) {
+            const set = new Set(fixos);
+            while (set.size < 6) {
+                set.add(randomInt(1, 60));
+            }
+            return Array.from(set).sort((a, b) => a - b);
+        }
+
+        function aplicarSelecao(numeros) {
+            numerosSelecionados = [...numeros];
+            document.querySelectorAll('.numero-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            numerosSelecionados.forEach(n => {
+                const btn = botoesNumero.get(n);
+                if (btn) btn.classList.add('selected');
+            });
+            atualizarSelecionados();
+        }
+
+        function gerarSelecaoAleatoria() {
+            const numeros = gerarCartaoAleatorio([]);
+            aplicarSelecao(numeros);
+        }
+
+        function toggleNumero(num, btn) {
+            const index = numerosSelecionados.indexOf(num);
+
+            if (index > -1) {
+                // Remover
+                numerosSelecionados.splice(index, 1);
+                btn.classList.remove('selected');
+            } else {
+                // Adicionar se tiver menos de 6
+                if (numerosSelecionados.length < 6) {
+                    numerosSelecionados.push(num);
+                    btn.classList.add('selected');
+                } else {
+                    alert('⚠️ Você já selecionou 6 números! Remova um para adicionar outro.');
+                    return;
+                }
+            }
+
+            atualizarSelecionados();
+        }
+
+        function atualizarSelecionados() {
+            const container = document.getElementById('numerosSelecionados');
+            const contador = document.getElementById('contador');
+            const btnAdicionar = document.getElementById('btnAdicionarCartao');
+
+            contador.textContent = `${numerosSelecionados.length}/6`;
+
+            container.innerHTML = numerosSelecionados
+                .sort((a, b) => a - b)
+                .map(num => `<span class="numero-selecionado">${num.toString().padStart(2, '0')}</span>`)
+                .join('');
+
+            btnAdicionar.disabled = numerosSelecionados.length !== 6;
+        }
+
+        function limparSelecao() {
+            numerosSelecionados = [];
+            document.querySelectorAll('.numero-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            atualizarSelecionados();
+        }
+
+        function adicionarCartao() {
+            if (numerosSelecionados.length !== 6) {
+                alert('⚠️ Selecione exatamente 6 números!');
+                return;
+            }
+
+            cartoes.push([...numerosSelecionados].sort((a, b) => a - b));
+            atualizarListaCartoes();
+            limparSelecao();
+        }
+
+        function limparCartoes() {
+            cartoes = [];
+            atualizarListaCartoes();
+        }
+
+        function gerarCartoesAleatorios() {
+            const qtd = parseInt(document.getElementById('qtdCartoesAleatorios').value || '0', 10);
+            const substituir = document.getElementById('substituirCartoesAleatorios').checked;
+
+            if (!qtd || qtd < 1) {
+                mostrarMensagem('⚠️ Informe uma quantidade válida de cartões.', 'erro');
+                return;
+            }
+
+            if (substituir) {
+                cartoes = [];
+            }
+
+            for (let i = 0; i < qtd; i++) {
+                cartoes.push(gerarCartaoAleatorio([]));
+            }
+
+            atualizarListaCartoes();
+            mostrarMensagem(`✅ ${qtd} cartão(ões) gerado(s)!`, 'sucesso');
+        }
+
+        function parseNumerosBase(texto) {
+            const tokens = String(texto || '')
+                .replace(/[^0-9]+/g, ' ')
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
+
+            const nums = tokens.map(t => parseInt(t, 10)).filter(n => Number.isFinite(n));
+            const set = new Set(nums);
+
+            if (set.size !== 6) {
+                return { ok: false, error: 'Informe exatamente 6 números (sem repetir).' };
+            }
+
+            for (const n of set) {
+                if (n < 1 || n > 60) {
+                    return { ok: false, error: 'Os números devem estar entre 1 e 60.' };
+                }
+            }
+
+            return { ok: true, numeros: Array.from(set).sort((a, b) => a - b) };
+        }
+
+        function escolherSubconjunto(arr, k) {
+            const copia = [...arr];
+            for (let i = copia.length - 1; i > 0; i--) {
+                const j = randomInt(0, i);
+                const tmp = copia[i];
+                copia[i] = copia[j];
+                copia[j] = tmp;
+            }
+            return copia.slice(0, k);
+        }
+
+        function gerarCartoesApartirBase() {
+            const baseText = document.getElementById('numerosBase').value;
+            const qtd = parseInt(document.getElementById('qtdCartoesBase').value || '0', 10);
+            let manter = parseInt(document.getElementById('qtdManterBase').value || '0', 10);
+
+            const parsed = parseNumerosBase(baseText);
+            if (!parsed.ok) {
+                mostrarMensagem('⚠️ ' + parsed.error, 'erro');
+                return;
+            }
+
+            if (!qtd || qtd < 1) {
+                mostrarMensagem('⚠️ Informe uma quantidade válida de cartões.', 'erro');
+                return;
+            }
+
+            if (!Number.isFinite(manter) || manter < 0) manter = 0;
+            if (manter > 6) manter = 6;
+
+            const base = parsed.numeros;
+
+            for (let i = 0; i < qtd; i++) {
+                const fixos = manter === 0 ? [] : escolherSubconjunto(base, manter);
+                cartoes.push(gerarCartaoAleatorio(fixos));
+            }
+
+            atualizarListaCartoes();
+            mostrarMensagem(`✅ ${qtd} cartão(ões) gerado(s) a partir da base!`, 'sucesso');
+        }
+
+        function atualizarListaCartoes() {
+            const container = document.getElementById('cartoesAdicionados');
+            const lista = document.getElementById('listaCartoes');
+            const btnSalvar = document.getElementById('btnSalvar');
+
+            if (cartoes.length === 0) {
+                container.style.display = 'none';
+                btnSalvar.disabled = true;
+                return;
+            }
+
+            container.style.display = 'block';
+            btnSalvar.disabled = false;
+
+            lista.innerHTML = cartoes.map((cartao, index) => `
+                <div class="cartao-item">
+                    <span class="cartao-numeros">
+                        Cartão ${index + 1}: ${cartao.map(n => n.toString().padStart(2, '0')).join(' - ')}
+                    </span>
+                    <button class="btn-remover" onclick="removerCartao(${index})">🗑️ Remover</button>
+                </div>
+            `).join('');
+        }
+
+        function removerCartao(index) {
+            cartoes.splice(index, 1);
+            atualizarListaCartoes();
+        }
+
+        async function salvarJogo() {
+            const dataSorteio = document.getElementById('dataSorteio').value;
+            const numeroConcurso = document.getElementById('numeroConcurso').value;
+            const apostaRealizada = document.getElementById('apostaRealizada').checked;
+
+            if (!dataSorteio || !numeroConcurso) {
+                mostrarMensagem('⚠️ Preencha a data do sorteio e o número do concurso!', 'erro');
+                return;
+            }
+
+            if (cartoes.length === 0) {
+                mostrarMensagem('⚠️ Adicione pelo menos um cartão!', 'erro');
+                return;
+            }
+
+            // Formatar data para DD/MM/YYYY
+            const [ano, mes, dia] = dataSorteio.split('-');
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+
+            const novoJogo = {
+                data_envio: new Date().toISOString().split('T')[0],
+                data_envio_formatada: new Date().toLocaleDateString('pt-BR'),
+                data_sorteio: dataFormatada,
+                numero_concurso: parseInt(numeroConcurso),
+                cartoes: cartoes,
+                conferido: false,
+                aposta_realizada: apostaRealizada
+            };
+
+            try {
+                const response = await fetch('/salvar_jogo_personalizado', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(novoJogo)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    mostrarMensagem('✅ Jogo salvo com sucesso! Ele será conferido automaticamente após o sorteio.', 'sucesso');
+
+                    // Limpar formulário
+                    cartoes = [];
+                    document.getElementById('dataSorteio').value = '';
+                    document.getElementById('numeroConcurso').value = '';
+                    document.getElementById('apostaRealizada').checked = true;
+                    atualizarListaCartoes();
+
+                    // Rolar para a mensagem
+                    document.getElementById('mensagem').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    mostrarMensagem('❌ Erro ao salvar jogo: ' + result.error, 'erro');
+                }
+            } catch (error) {
+                mostrarMensagem('❌ Erro ao salvar jogo: ' + error.message, 'erro');
+            }
+        }
+
+        function mostrarMensagem(texto, tipo) {
+            const div = document.getElementById('mensagem');
+            div.innerHTML = texto;
+            div.className = `mensagem ${tipo}`;
+            div.style.display = 'block';
+
+            setTimeout(() => {
+                div.style.display = 'none';
+            }, 5000);
+        }
+
+        async function carregarProximoConcurso() {
+            try {
+                const response = await fetch('/api/proximo-concurso', { method: 'GET' });
+                if (!response.ok) {
+                    throw new Error('Falha ao consultar API do próximo concurso');
+                }
+                const data = await response.json();
+
+                const inputData = document.getElementById('dataSorteio');
+                const inputConcurso = document.getElementById('numeroConcurso');
+
+                if (data && data.data_sorteio_iso) {
+                    inputData.value = data.data_sorteio_iso;
+                }
+
+                if (data && typeof data.numero_concurso === 'number' && !Number.isNaN(data.numero_concurso)) {
+                    inputConcurso.value = String(data.numero_concurso);
+                }
+            } catch (error) {
+                // Mantém o comportamento padrão (data de hoje) em caso de falha
+                mostrarMensagem('⚠️ Não foi possível buscar o próximo concurso automaticamente. Preencha manualmente se necessário.', 'erro');
+            }
+        }
+
+        // Inicializar
+        criarGrid();
+
+        // Definir data de hoje como padrão (caso a API falhe)
+        document.getElementById('dataSorteio').valueAsDate = new Date();
+
+        // Preencher automaticamente com o próximo concurso da Caixa
+        carregarProximoConcurso();
+    </script>
+        </div>
+
+        <div id="tab-gerenciar" class="tab-content">
+            <h1>🎰 Gerenciar Jogos da Mega-Sena</h1>
+
+        <div id="alert" class="alert">
+
+        <div id="jogos-container"></div>
+
+        <button id="salvar" class="btn">💾 Salvar Alterações</button>
+    </div>
+
+    <script>
+        let historico = [];
+
+        // Carregar histórico de jogos
+        async function carregarJogos() {
+            try {
+                const response = await fetch('historico_jogos.json');
+                historico = await response.json();
+                renderizarJogos();
+            } catch (error) {
+                mostrarAlerta('Erro ao carregar jogos: ' + error.message, 'error');
+            }
+        }
+
+        // Renderizar jogos na interface
+        function renderizarJogos() {
+            const container = document.getElementById('jogos-container');
+
+            if (!historico || historico.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h2>📭 Nenhum jogo cadastrado</h2>
+                        <p>Os jogos gerados aparecerão aqui.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ordenar por data (mais recentes primeiro)
+            const jogosOrdenados = [...historico].reverse();
+
+            container.innerHTML = jogosOrdenados.map((jogo, index) => {
+                const indexReal = historico.length - 1 - index;
+                const conferido = jogo.conferido;
+
+                return `
+                    <div class="jogo-card">
+                        <div class="jogo-header">
+                            <div>
+                                <div class="concurso-info">
+                                    🎰 Concurso ${jogo.numero_concurso || 'Não definido'}
+                                </div>
+                                <div class="data-info">
+                                    Gerado em: ${jogo.data_envio_formatada}
+                                    ${jogo.data_sorteio ? `• Sorteio: ${jogo.data_sorteio}` : ''}
+                                </div>
+                            </div>
+                            ${conferido ?
+                                '<span class="status conferido">✅ Conferido</span>' :
+                                jogo.aposta_realizada ?
+                                '<span class="status apostado">✅ Apostado</span>' :
+                                '<span class="status nao-apostado">❌ Não apostado</span>'
+                            }
+                        </div>
+
+                        ${jogo.cartoes.map((numeros, cartaoIndex) => `
+                            <div class="cartao">
+                                <div>
+                                    <span class="cartao-label">Cartão ${cartaoIndex + 1}</span>
+                                    <span class="numeros">
+                                        ${numeros.map(n => String(n).padStart(2, '0')).join(' - ')}
+                                    </span>
+                                </div>
+                            </div>
+                        `).join('')}
+
+                        ${!conferido ? `
+                            <div class="checkbox-container" style="margin-top: 15px;">
+                                <input
+                                    type="checkbox"
+                                    id="aposta-${indexReal}"
+                                    ${jogo.aposta_realizada ? 'checked' : ''}
+                                    onchange="marcarAposta(${indexReal}, this.checked)"
+                                >
+                                <label for="aposta-${indexReal}">
+                                    <strong>✅ Marquei esta aposta na lotérica</strong>
+                                </label>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Marcar/desmarcar aposta
+        function marcarAposta(index, marcado) {
+            historico[index].aposta_realizada = marcado;
+        }
+
+        // Salvar alterações
+        async function salvarAlteracoes() {
+            const btn = document.getElementById('salvar');
+            btn.disabled = true;
+            btn.textContent = '💾 Salvando...';
+
+            try {
+                // Salvar via Python helper
+                const response = await fetch('salvar_jogos.py', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(historico)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('✅ Alterações salvas com sucesso!', 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    throw new Error('Erro ao salvar');
+                }
+            } catch (error) {
+                // Fallback: copiar JSON para clipboard
+                const json = JSON.stringify(historico, null, 2);
+                mostrarAlerta('⚠️ Copie o JSON abaixo e salve manualmente em historico_jogos.json', 'error');
+                console.log(json);
+
+                // Tentar copiar automaticamente
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(json);
+                    mostrarAlerta('📋 JSON copiado! Cole em historico_jogos.json', 'success');
+                }
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '💾 Salvar Alterações';
+            }
+        }
+
+        // Mostrar alerta
+        function mostrarAlerta(mensagem, tipo) {
+            const alert = document.getElementById('alert');
+            alert.textContent = mensagem;
+            alert.className = `alert ${tipo} show`;
+
+            setTimeout(() => {
+                alert.className = 'alert';
+            }, 5000);
+        }
+
+        // Event listeners
+        document.getElementById('salvar').addEventListener('click', salvarAlteracoes);
+
+        // Carregar jogos ao iniciar
+        carregarJogos();
+    </script>
+        </div>
+    </div>
+
+    <script>
+        // Função para alternar abas
+        function mostrarAba(aba) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remover active de todos os botões
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar aba selecionada
+            document.getElementById('tab-' + aba).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Scripts combinados
+        
+        let numerosSelecionados = [];
+        let cartoes = [];
+        let botoesNumero = new Map();
+
+        // Criar grid de números
+        function criarGrid() {
+            const grid = document.getElementById('numerosGrid');
+            for (let i = 1; i <= 60; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'numero-btn';
+                btn.textContent = i.toString().padStart(2, '0');
+                btn.dataset.numero = String(i);
+                btn.onclick = () => toggleNumero(i, btn);
+                grid.appendChild(btn);
+                botoesNumero.set(i, btn);
+            }
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function gerarCartaoAleatorio(fixos = []) {
+            const set = new Set(fixos);
+            while (set.size < 6) {
+                set.add(randomInt(1, 60));
+            }
+            return Array.from(set).sort((a, b) => a - b);
+        }
+
+        function aplicarSelecao(numeros) {
+            numerosSelecionados = [...numeros];
+            document.querySelectorAll('.numero-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            numerosSelecionados.forEach(n => {
+                const btn = botoesNumero.get(n);
+                if (btn) btn.classList.add('selected');
+            });
+            atualizarSelecionados();
+        }
+
+        function gerarSelecaoAleatoria() {
+            const numeros = gerarCartaoAleatorio([]);
+            aplicarSelecao(numeros);
+        }
+
+        function toggleNumero(num, btn) {
+            const index = numerosSelecionados.indexOf(num);
+
+            if (index > -1) {
+                // Remover
+                numerosSelecionados.splice(index, 1);
+                btn.classList.remove('selected');
+            } else {
+                // Adicionar se tiver menos de 6
+                if (numerosSelecionados.length < 6) {
+                    numerosSelecionados.push(num);
+                    btn.classList.add('selected');
+                } else {
+                    alert('⚠️ Você já selecionou 6 números! Remova um para adicionar outro.');
+                    return;
+                }
+            }
+
+            atualizarSelecionados();
+        }
+
+        function atualizarSelecionados() {
+            const container = document.getElementById('numerosSelecionados');
+            const contador = document.getElementById('contador');
+            const btnAdicionar = document.getElementById('btnAdicionarCartao');
+
+            contador.textContent = `${numerosSelecionados.length}/6`;
+
+            container.innerHTML = numerosSelecionados
+                .sort((a, b) => a - b)
+                .map(num => `<span class="numero-selecionado">${num.toString().padStart(2, '0')}</span>`)
+                .join('');
+
+            btnAdicionar.disabled = numerosSelecionados.length !== 6;
+        }
+
+        function limparSelecao() {
+            numerosSelecionados = [];
+            document.querySelectorAll('.numero-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            atualizarSelecionados();
+        }
+
+        function adicionarCartao() {
+            if (numerosSelecionados.length !== 6) {
+                alert('⚠️ Selecione exatamente 6 números!');
+                return;
+            }
+
+            cartoes.push([...numerosSelecionados].sort((a, b) => a - b));
+            atualizarListaCartoes();
+            limparSelecao();
+        }
+
+        function limparCartoes() {
+            cartoes = [];
+            atualizarListaCartoes();
+        }
+
+        function gerarCartoesAleatorios() {
+            const qtd = parseInt(document.getElementById('qtdCartoesAleatorios').value || '0', 10);
+            const substituir = document.getElementById('substituirCartoesAleatorios').checked;
+
+            if (!qtd || qtd < 1) {
+                mostrarMensagem('⚠️ Informe uma quantidade válida de cartões.', 'erro');
+                return;
+            }
+
+            if (substituir) {
+                cartoes = [];
+            }
+
+            for (let i = 0; i < qtd; i++) {
+                cartoes.push(gerarCartaoAleatorio([]));
+            }
+
+            atualizarListaCartoes();
+            mostrarMensagem(`✅ ${qtd} cartão(ões) gerado(s)!`, 'sucesso');
+        }
+
+        function parseNumerosBase(texto) {
+            const tokens = String(texto || '')
+                .replace(/[^0-9]+/g, ' ')
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
+
+            const nums = tokens.map(t => parseInt(t, 10)).filter(n => Number.isFinite(n));
+            const set = new Set(nums);
+
+            if (set.size !== 6) {
+                return { ok: false, error: 'Informe exatamente 6 números (sem repetir).' };
+            }
+
+            for (const n of set) {
+                if (n < 1 || n > 60) {
+                    return { ok: false, error: 'Os números devem estar entre 1 e 60.' };
+                }
+            }
+
+            return { ok: true, numeros: Array.from(set).sort((a, b) => a - b) };
+        }
+
+        function escolherSubconjunto(arr, k) {
+            const copia = [...arr];
+            for (let i = copia.length - 1; i > 0; i--) {
+                const j = randomInt(0, i);
+                const tmp = copia[i];
+                copia[i] = copia[j];
+                copia[j] = tmp;
+            }
+            return copia.slice(0, k);
+        }
+
+        function gerarCartoesApartirBase() {
+            const baseText = document.getElementById('numerosBase').value;
+            const qtd = parseInt(document.getElementById('qtdCartoesBase').value || '0', 10);
+            let manter = parseInt(document.getElementById('qtdManterBase').value || '0', 10);
+
+            const parsed = parseNumerosBase(baseText);
+            if (!parsed.ok) {
+                mostrarMensagem('⚠️ ' + parsed.error, 'erro');
+                return;
+            }
+
+            if (!qtd || qtd < 1) {
+                mostrarMensagem('⚠️ Informe uma quantidade válida de cartões.', 'erro');
+                return;
+            }
+
+            if (!Number.isFinite(manter) || manter < 0) manter = 0;
+            if (manter > 6) manter = 6;
+
+            const base = parsed.numeros;
+
+            for (let i = 0; i < qtd; i++) {
+                const fixos = manter === 0 ? [] : escolherSubconjunto(base, manter);
+                cartoes.push(gerarCartaoAleatorio(fixos));
+            }
+
+            atualizarListaCartoes();
+            mostrarMensagem(`✅ ${qtd} cartão(ões) gerado(s) a partir da base!`, 'sucesso');
+        }
+
+        function atualizarListaCartoes() {
+            const container = document.getElementById('cartoesAdicionados');
+            const lista = document.getElementById('listaCartoes');
+            const btnSalvar = document.getElementById('btnSalvar');
+
+            if (cartoes.length === 0) {
+                container.style.display = 'none';
+                btnSalvar.disabled = true;
+                return;
+            }
+
+            container.style.display = 'block';
+            btnSalvar.disabled = false;
+
+            lista.innerHTML = cartoes.map((cartao, index) => `
+                <div class="cartao-item">
+                    <span class="cartao-numeros">
+                        Cartão ${index + 1}: ${cartao.map(n => n.toString().padStart(2, '0')).join(' - ')}
+                    </span>
+                    <button class="btn-remover" onclick="removerCartao(${index})">🗑️ Remover</button>
+                </div>
+            `).join('');
+        }
+
+        function removerCartao(index) {
+            cartoes.splice(index, 1);
+            atualizarListaCartoes();
+        }
+
+        async function salvarJogo() {
+            const dataSorteio = document.getElementById('dataSorteio').value;
+            const numeroConcurso = document.getElementById('numeroConcurso').value;
+            const apostaRealizada = document.getElementById('apostaRealizada').checked;
+
+            if (!dataSorteio || !numeroConcurso) {
+                mostrarMensagem('⚠️ Preencha a data do sorteio e o número do concurso!', 'erro');
+                return;
+            }
+
+            if (cartoes.length === 0) {
+                mostrarMensagem('⚠️ Adicione pelo menos um cartão!', 'erro');
+                return;
+            }
+
+            // Formatar data para DD/MM/YYYY
+            const [ano, mes, dia] = dataSorteio.split('-');
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+
+            const novoJogo = {
+                data_envio: new Date().toISOString().split('T')[0],
+                data_envio_formatada: new Date().toLocaleDateString('pt-BR'),
+                data_sorteio: dataFormatada,
+                numero_concurso: parseInt(numeroConcurso),
+                cartoes: cartoes,
+                conferido: false,
+                aposta_realizada: apostaRealizada
+            };
+
+            try {
+                const response = await fetch('/salvar_jogo_personalizado', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(novoJogo)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    mostrarMensagem('✅ Jogo salvo com sucesso! Ele será conferido automaticamente após o sorteio.', 'sucesso');
+
+                    // Limpar formulário
+                    cartoes = [];
+                    document.getElementById('dataSorteio').value = '';
+                    document.getElementById('numeroConcurso').value = '';
+                    document.getElementById('apostaRealizada').checked = true;
+                    atualizarListaCartoes();
+
+                    // Rolar para a mensagem
+                    document.getElementById('mensagem').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    mostrarMensagem('❌ Erro ao salvar jogo: ' + result.error, 'erro');
+                }
+            } catch (error) {
+                mostrarMensagem('❌ Erro ao salvar jogo: ' + error.message, 'erro');
+            }
+        }
+
+        function mostrarMensagem(texto, tipo) {
+            const div = document.getElementById('mensagem');
+            div.innerHTML = texto;
+            div.className = `mensagem ${tipo}`;
+            div.style.display = 'block';
+
+            setTimeout(() => {
+                div.style.display = 'none';
+            }, 5000);
+        }
+
+        async function carregarProximoConcurso() {
+            try {
+                const response = await fetch('/api/proximo-concurso', { method: 'GET' });
+                if (!response.ok) {
+                    throw new Error('Falha ao consultar API do próximo concurso');
+                }
+                const data = await response.json();
+
+                const inputData = document.getElementById('dataSorteio');
+                const inputConcurso = document.getElementById('numeroConcurso');
+
+                if (data && data.data_sorteio_iso) {
+                    inputData.value = data.data_sorteio_iso;
+                }
+
+                if (data && typeof data.numero_concurso === 'number' && !Number.isNaN(data.numero_concurso)) {
+                    inputConcurso.value = String(data.numero_concurso);
+                }
+            } catch (error) {
+                // Mantém o comportamento padrão (data de hoje) em caso de falha
+                mostrarMensagem('⚠️ Não foi possível buscar o próximo concurso automaticamente. Preencha manualmente se necessário.', 'erro');
+            }
+        }
+
+        // Inicializar
+        criarGrid();
+
+        // Definir data de hoje como padrão (caso a API falhe)
+        document.getElementById('dataSorteio').valueAsDate = new Date();
+
+        // Preencher automaticamente com o próximo concurso da Caixa
+        carregarProximoConcurso();
+    
+        
+        let historico = [];
+
+        // Carregar histórico de jogos
+        async function carregarJogos() {
+            try {
+                const response = await fetch('historico_jogos.json');
+                historico = await response.json();
+                renderizarJogos();
+            } catch (error) {
+                mostrarAlerta('Erro ao carregar jogos: ' + error.message, 'error');
+            }
+        }
+
+        // Renderizar jogos na interface
+        function renderizarJogos() {
+            const container = document.getElementById('jogos-container');
+
+            if (!historico || historico.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h2>📭 Nenhum jogo cadastrado</h2>
+                        <p>Os jogos gerados aparecerão aqui.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Ordenar por data (mais recentes primeiro)
+            const jogosOrdenados = [...historico].reverse();
+
+            container.innerHTML = jogosOrdenados.map((jogo, index) => {
+                const indexReal = historico.length - 1 - index;
+                const conferido = jogo.conferido;
+
+                return `
+                    <div class="jogo-card">
+                        <div class="jogo-header">
+                            <div>
+                                <div class="concurso-info">
+                                    🎰 Concurso ${jogo.numero_concurso || 'Não definido'}
+                                </div>
+                                <div class="data-info">
+                                    Gerado em: ${jogo.data_envio_formatada}
+                                    ${jogo.data_sorteio ? `• Sorteio: ${jogo.data_sorteio}` : ''}
+                                </div>
+                            </div>
+                            ${conferido ?
+                                '<span class="status conferido">✅ Conferido</span>' :
+                                jogo.aposta_realizada ?
+                                '<span class="status apostado">✅ Apostado</span>' :
+                                '<span class="status nao-apostado">❌ Não apostado</span>'
+                            }
+                        </div>
+
+                        ${jogo.cartoes.map((numeros, cartaoIndex) => `
+                            <div class="cartao">
+                                <div>
+                                    <span class="cartao-label">Cartão ${cartaoIndex + 1}</span>
+                                    <span class="numeros">
+                                        ${numeros.map(n => String(n).padStart(2, '0')).join(' - ')}
+                                    </span>
+                                </div>
+                            </div>
+                        `).join('')}
+
+                        ${!conferido ? `
+                            <div class="checkbox-container" style="margin-top: 15px;">
+                                <input
+                                    type="checkbox"
+                                    id="aposta-${indexReal}"
+                                    ${jogo.aposta_realizada ? 'checked' : ''}
+                                    onchange="marcarAposta(${indexReal}, this.checked)"
+                                >
+                                <label for="aposta-${indexReal}">
+                                    <strong>✅ Marquei esta aposta na lotérica</strong>
+                                </label>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Marcar/desmarcar aposta
+        function marcarAposta(index, marcado) {
+            historico[index].aposta_realizada = marcado;
+        }
+
+        // Salvar alterações
+        async function salvarAlteracoes() {
+            const btn = document.getElementById('salvar');
+            btn.disabled = true;
+            btn.textContent = '💾 Salvando...';
+
+            try {
+                // Salvar via Python helper
+                const response = await fetch('salvar_jogos.py', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(historico)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('✅ Alterações salvas com sucesso!', 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    throw new Error('Erro ao salvar');
+                }
+            } catch (error) {
+                // Fallback: copiar JSON para clipboard
+                const json = JSON.stringify(historico, null, 2);
+                mostrarAlerta('⚠️ Copie o JSON abaixo e salve manualmente em historico_jogos.json', 'error');
+                console.log(json);
+
+                // Tentar copiar automaticamente
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(json);
+                    mostrarAlerta('📋 JSON copiado! Cole em historico_jogos.json', 'success');
+                }
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '💾 Salvar Alterações';
+            }
+        }
+
+        // Mostrar alerta
+        function mostrarAlerta(mensagem, tipo) {
+            const alert = document.getElementById('alert');
+            alert.textContent = mensagem;
+            alert.className = `alert ${tipo} show`;
+
+            setTimeout(() => {
+                alert.className = 'alert';
+            }, 5000);
+        }
+
+        // Event listeners
+        document.getElementById('salvar').addEventListener('click', salvarAlteracoes);
+
+        // Carregar jogos ao iniciar
+        carregarJogos();
+    
+    </script>
+</body>
+</html>
